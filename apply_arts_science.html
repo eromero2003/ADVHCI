@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College of Arts and Science Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body {
+        background: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    .gsu-header {
+        background: linear-gradient(90deg, #003399 0%, #1a237e 100%);
+        color: #fff;
+        padding: 38px 0 38px 0;
+        text-align: center;
+        border-radius: 0;
+        box-shadow: 0 2px 12px rgba(0,57,166,0.10);
+        position: relative;
+        margin: 0;
+        z-index: 100;
+    }
+
+    .gsu-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 95%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .gsu-title {
+        font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+        font-size: 2.9rem;
+        letter-spacing: 0.5px;
+        color: #fff;
+        text-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        margin-bottom: 0;
+    }
+
+    .logout-btn {
+        background: #003399;
+        color: #fff;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 7px;
+        font-size: 1.07rem;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s, border 0.2s;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        margin-left: 16px;
+    }
+    .logout-btn:hover {
+        background: #001a66;
+    }
+
+    .nav-links {
+        font-size: 1.13rem;
+        color: hsl(216, 14%, 93%);
+        margin-top: 10px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-weight: 600;
+    }
+    .nav-links a {
+        color: hsl(217, 37%, 93%);
+        text-decoration: none;
+        margin-right: 18px;
+        font-weight: 600;
+        transition: color 0.2s;
+        font-family: Arial, sans-serif;
+    }
+    .nav-links a:last-child {
+        margin-right: 0;
+    }
+    .nav-links a:hover {
+        color: hsl(211, 71%, 66%);
+        text-decoration: underline;
+    }
+
+    /* ====== BUTTONS (GSU STYLE) ====== */
+    .btn {
+        background: #003399;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 13px 28px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        transition: background 0.2s;
+        margin-left: 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .btn:hover {
+        background: #001a66;
+    }
+
+    .container {
+        width: 95%;
+        max-width: 900px;
+        margin: 36px auto 36px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0,57,166,0.07);
+        padding: 32px 36px 32px 36px;
+    }
+
+    h2 {
+        font-family: 'Verdana', Arial, sans-serif;
+        color: #003399;
+        font-size: 2rem;
+        margin-bottom: 26px;
+        margin-top: 0;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+
+    label {
+        display: block;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #003399;
+        font-size: 1.07rem;
+    }
+
+    input[type="text"], input[type="date"], select, textarea {
+        width: 100%;
+        padding: 9px 10px;
+        font-size: 1.04rem;
+        border: 1.5px solid #b7c9e5;
+        border-radius: 6px;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+        font-family: Arial, sans-serif;
+        transition: border 0.2s;
+    }
+    textarea {
+        min-height: 60px;
+        resize: vertical;
+    }
+    input[type="checkbox"] {
+        margin-right: 7px;
+        margin-bottom: 0;
+    }
+    .small {
+        font-size: 0.97rem;
+        color: #555;
+        font-weight: normal;
+    }
+
+    @media (max-width: 700px) {
+        .gsu-header-row { flex-direction: column; gap: 10px; }
+        .gsu-title { font-size: 2rem; }
+        .container { padding: 16px 7vw; }
+    }
+    </style>
+</head>
+<body>
+    <!-- HEADER START -->
+    <div class="gsu-header">
+        <div class="gsu-header-row">
+            <span class="gsu-title">College of Arts and Science</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div class="nav-links">
+            <a href="/home">Home</a>
+            <a href="/profile">My Profile</a>
+            <a href="/saved-scholarships">Saved Scholarships</a>
+            <a href="/application-status">Application Status</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>College of Arts and Science Scholarship Application</h2>
+        <form method="POST">
+
+            <label for="major">Filter by Major</label>
+            <select name="major" id="major">
+                <option value="">Select Major</option>
+                {% for m in majors %}
+                <option value="{{ m }}" {% if form_data.get('major','') == m %}selected{% endif %}>{{ m }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Personal Background (check all that apply)</label>
+            {% set pb_options = [
+                "I am a parent", "I am a single parent", "I am the child or grandchild of a Georgia State University graduate",
+                "I am the child of a current faculty or staff member working at Georgia State University",
+                "I am an international student from an Asian or Pacific Island country",
+                "I am a student affiliated with one of the Asian Studies student organizations at GSU",
+                "I graduated from a Georgia Public High School",
+                "I have family that currently resides in the United States",
+                "I was born in the state of Georgia", "Spanish is my first language",
+                "Spanish is the language primarily spoken in my household", "None of the above"
+            ] %}
+            {% for opt in pb_options %}
+                <input type="checkbox" name="personal_background" value="{{ opt }}"
+                    {% if opt in form_data.get('personal_background','').split(',') %}checked{% endif %}> {{ opt }}<br>
+            {% endfor %}
+
+            <label>Lapse in Enrollment</label>
+            <select name="lapse_in_enrollment">
+                {% set lapse_opts = ["1 Semester", "1 Academic Year", "2 - 5 Academic Years", "6 - 10 Academic Years", "10+ Academic Years", "None of the above"] %}
+                {% for opt in lapse_opts %}
+                    <option value="{{ opt }}" {% if form_data.get('lapse_in_enrollment','') == opt %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Campus Housing</label>
+            <select name="campus_housing">
+                {% set housing_opts = ["University Commons", "Patton Hall", "Piedmont Central", "Other", "None of the above"] %}
+                {% for opt in housing_opts %}
+                    <option value="{{ opt }}" {% if form_data.get('campus_housing','') == opt %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Academic/Career Interests (check all that apply)</label>
+            {% set ai_options = [
+                "Business", "Education", "Exploratory", "Humanities and Arts", "Health Professions",
+                "Hispanic/Latinx Heritage", "Military", "Policy/Social Science", "STEM", "None of the Above"
+            ] %}
+            {% for opt in ai_options %}
+                <input type="checkbox" name="academic_interests" value="{{ opt }}"
+                    {% if opt in form_data.get('academic_interests','').split(',') %}checked{% endif %}> {{ opt }}<br>
+            {% endfor %}
+
+            <label for="why_gsu">Why did you choose GSU/Perimeter College? <span class="small">(100-500 words)</span></label>
+            <textarea name="why_gsu" id="why_gsu" minlength="100" maxlength="500">{{ form_data.get('why_gsu','') }}</textarea>
+
+            <label for="scholarship_help">How will a scholarship help you achieve your goals? <span class="small">(100-500 words)</span></label>
+            <textarea name="scholarship_help" id="scholarship_help" minlength="100" maxlength="500">{{ form_data.get('scholarship_help','') }}</textarea>
+
+            <label for="benefit_gsu">How will attending GSU benefit your future plans? <span class="small">(100-500 words)</span></label>
+            <textarea name="benefit_gsu" id="benefit_gsu" minlength="100" maxlength="500">{{ form_data.get('benefit_gsu','') }}</textarea>
+
+            <label for="obstacles_family">Obstacles your family has faced (financial, societal, etc.): <span class="small">(100-500 words)</span></label>
+            <textarea name="obstacles_family" id="obstacles_family" minlength="100" maxlength="500">{{ form_data.get('obstacles_family','') }}</textarea>
+
+            <label for="obstacles_school">Obstacles you have faced in high school or college:</label>
+            <textarea name="obstacles_school" id="obstacles_school">{{ form_data.get('obstacles_school','') }}</textarea>
+
+            <label>Betterment Groups (check all that apply)</label>
+            {% set bg_options = [
+                "African Americans", "Asian American and Pacific Islander", "Hispanic or Latinx",
+                "LGBTQIA+ communities", "People with Disabilities", "Women", "Others", "None of the above"
+            ] %}
+            {% for opt in bg_options %}
+                <input type="checkbox" name="betterment_groups" value="{{ opt }}"
+                    {% if opt in form_data.get('betterment_groups','').split(',') %}checked{% endif %}> {{ opt }}<br>
+            {% endfor %}
+
+            <label for="betterment_explain">Explain how you have worked for the betterment of these groups (max 1000 words):</label>
+            <textarea name="betterment_explain" id="betterment_explain" maxlength="1000">{{ form_data.get('betterment_explain','') }}</textarea>
+
+            <label>Employment Status</label>
+            <select name="employment_status">
+                {% set emp_opts = [
+                    "Currently Employed", "Not Currently Employed", "Previously Employed while enrolled at GSU",
+                    "Previously Employed prior to being enrolled at GSU", "Never previously employed"
+                ] %}
+                {% for opt in emp_opts %}
+                    <option value="{{ opt }}" {% if form_data.get('employment_status','') == opt %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Division of Student Success Roles (check all that apply)</label>
+            {% set ssr_options = [
+                "Hourly student employee of the Student Center", "Member or Leader of the Spotlight Programs Board",
+                "Member or Leader of the Panther Activities Council", "Hourly student employee of the Division of Student Success",
+                "None of the above"
+            ] %}
+            {% for opt in ssr_options %}
+                <input type="checkbox" name="student_success_roles" value="{{ opt }}"
+                    {% if opt in form_data.get('student_success_roles','').split(',') %}checked{% endif %}> {{ opt }}<br>
+            {% endfor %}
+
+            <label for="community_service">Community Service Projects (describe):</label>
+            <textarea name="community_service" id="community_service">{{ form_data.get('community_service','') }}</textarea>
+
+            <label for="employment_info">Employment Information (describe):</label>
+            <textarea name="employment_info" id="employment_info">{{ form_data.get('employment_info','') }}</textarea>
+
+            <label for="references">References (names and emails):</label>
+            <textarea name="references" id="references">{{ form_data.get('references','') }}</textarea>
+
+            <label>
+                <input type="checkbox" name="authorize_statement" {% if form_data.get('authorize_statement',0) %}checked{% endif %}>
+                I hereby request and authorize the release of information contained in my student records to the appropriate departmental scholarship selection committee for the purpose of evaluation and scholarship award selection.
+            </label>
+
+            <label>Full Name*</label>
+            <input type="text" name="full_name" value="{{ form_data.get('full_name','') }}" required>
+            <label>Authorize Date*</label>
+            <input type="date" name="authorize_date" value="{{ form_data.get('authorize_date','') }}" required>
+
+            <br><br>
+            <button class="btn" name="submit" value="save">Save and Keep Editing</button>
+            <button class="btn" name="submit" value="finish">Finish and Submit</button>
+        </form>
+    </div>
+
+    <script>
+    function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+            window.location.href = "/logout";
+        }
+    }
+    </script>
+</body>
+</html>
+
+
+

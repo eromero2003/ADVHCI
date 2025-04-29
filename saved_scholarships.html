@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Scholarships</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="gsu-header">
+        <div class="gsu-header-row">
+            <div class="gsu-title">GSU Scholarship Portal</div>
+            <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('homepage') }}">Home</a> |
+        <a href="{{ url_for('profile') }}">My Profile</a> |
+        <a href="{{ url_for('saved_scholarships') }}">Saved Scholarships</a> |
+        <a href="{{ url_for('application_status') }}">Application Status</a>
+    </div>
+    <hr>
+    <div class="scholarship-list" style="margin: 32px auto 0 auto; max-width: 900px;">
+        <h2 class="section-title">Saved Scholarships</h2>
+        {% for scholarship in saved_scholarships %}
+            <div class="scholarship-card">
+                <a href="{{ url_for('scholarship_detail', scholarship_id=scholarship['id']) }}">
+                    <span class="scholarship-card-title">{{ scholarship.name }}</span>
+                </a>
+                <div class="scholarship-details">
+                    <b>Amount:</b> {{ scholarship.amount }}<br>
+                    <b>Deadline:</b> {{ scholarship.deadline | datetimeformat }}<br>
+                    <b>Eligibility:</b>
+                    {{ ', '.join(scholarship.academic_level) }},
+                    {{ ', '.join(scholarship.student_type) }}
+                    {% if scholarship.college_major and scholarship.college_major != "Any" %}, {{ scholarship.college_major }}{% endif %}
+                </div>
+                <div class="scholarship-actions">
+                    <a href="{{ url_for('scholarship_detail', scholarship_id=scholarship['id']) }}">
+                        <button class="btn-primary">View Details</button>
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div>You have not saved any scholarships yet.</div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="gsu-header">
+        <div class="gsu-header-row">
+            <div class="gsu-title">GSU Scholarship Portal</div>
+            <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('homepage') }}">Home</a> |
+        <a href="{{ url_for('profile') }}">My Profile</a> |
+        <a href="{{ url_for('saved_scholarships') }}">Saved Scholarships</a> |
+        <a href="{{ url_for('application_status') }}">Application Status</a>
+    </div>
+    <hr>
+    <div class="scholarship-list" style="margin: 32px auto 0 auto; max-width: 900px;">
+        <h2 class="section-title">My Profile</h2>
+        <div class="scholarship-card">
+            <div class="scholarship-card-title">Applications</div>
+            <div class="scholarship-actions" style="margin-top:18px;">
+                <a href="{{ url_for('apply_general') }}" class="btn-primary" style="margin-right:12px;">Apply to General Application</a>
+                <a href="{{ url_for('apply_arts_science') }}" class="btn-primary">Apply to College of Arts and Science Application</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GSU General Application</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f8f9fa; }
+        .header {
+            background: linear-gradient(90deg, #0a3386 0%, #193b8a 100%);
+            color: #fff;
+            padding: 28px 0 18px 0;
+            position: relative;
+        }
+        .header-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-left: 40px;
+            letter-spacing: 1px;
+        }
+        .logout-btn {
+            position: absolute;
+            right: 40px;
+            top: 32px;
+            background: #0a3386;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #1a4fbb;
+        }
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 0 2px 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.05em;
+            font-weight: 500;
+            justify-content: center;
+        }
+        .nav-link {
+            color: #0a3386;
+            text-decoration: none;
+            padding: 0 10px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .nav-link:not(:last-child)::after {
+            content: "|";
+            color: #0a3386;
+            margin-left: 10px;
+        }
+        .nav-link:hover {
+            color: #1a4fbb;
+            text-decoration: underline;
+        }
+        .container { max-width: 900px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 8px; }
+        h2 { color: #0a3386; }
+        label { font-weight: bold; display: block; margin-top: 18px; }
+        textarea { width: 100%; min-height: 100px; }
+        select, input[type=text], input[type=date] { width: 100%; padding: 8px; margin-top: 4px; }
+        .btn { background: #0a3386; color: #fff; padding: 10px 24px; border: none; border-radius: 4px; margin: 10px 4px 0 0; cursor: pointer; }
+        .btn:hover { background: #1a4fbb; }
+        .small { font-size: 0.95em; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span class="header-title">General Application</span>
+        <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+    </div>
+    <div class="navbar">
+        <a href="/home" class="nav-link">Home</a>
+        <a href="/profile" class="nav-link">My Profile</a>
+        <a href="/saved-scholarships" class="nav-link">Saved Scholarships</a>
+        <a href="/application-status" class="nav-link">Application Status</a>
+    </div>
+
+    <div class="container">
+        <h2>GSU General Scholarship Application</h2>
+        <form method="POST">
+            <label for="major">Filter by Major</label>
+            <select name="major" id="major">
+                <option value="">Select Major</option>
+                <option value="Biology">Biology</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Business">Business</option>
+            </select>
+
+            <label>Personal Background (check all that apply)</label>
+            <input type="checkbox" name="personal_background" value="I am a parent"> I am a parent<br>
+            <input type="checkbox" name="personal_background" value="I am a single parent"> I am a single parent<br>
+            <input type="checkbox" name="personal_background" value="I am the child or grandchild of a Georgia State University graduate"> I am the child or grandchild of a Georgia State University graduate<br>
+            <input type="checkbox" name="personal_background" value="I am the child of a current faculty or staff member working at Georgia State University"> I am the child of a current faculty or staff member working at Georgia State University<br>
+            <input type="checkbox" name="personal_background" value="I am an international student from an Asian or Pacific Island country"> I am an international student from an Asian or Pacific Island country<br>
+            <input type="checkbox" name="personal_background" value="I am a student affiliated with one of the Asian Studies student organizations at GSU"> I am a student affiliated with one of the Asian Studies student organizations at GSU<br>
+            <input type="checkbox" name="personal_background" value="I graduated from a Georgia Public High School"> I graduated from a Georgia Public High School<br>
+            <input type="checkbox" name="personal_background" value="I have family that currently resides in the United States"> I have family that currently resides in the United States<br>
+            <input type="checkbox" name="personal_background" value="I was born in the state of Georgia"> I was born in the state of Georgia<br>
+            <input type="checkbox" name="personal_background" value="Spanish is my first language"> Spanish is my first language<br>
+            <input type="checkbox" name="personal_background" value="Spanish is the language primarily spoken in my household"> Spanish is the language primarily spoken in my household<br>
+            <input type="checkbox" name="personal_background" value="None of the above"> None of the above<br>
+
+            <label>Lapse in Enrollment</label>
+            <select name="lapse_in_enrollment">
+                <option value="1 Semester">1 Semester</option>
+                <option value="1 Academic Year">1 Academic Year</option>
+                <option value="2 - 5 Academic Years">2 - 5 Academic Years</option>
+                <option value="6 - 10 Academic Years">6 - 10 Academic Years</option>
+                <option value="10+ Academic Years">10+ Academic Years</option>
+                <option value="None of the above">None of the above</option>
+            </select>
+
+            <label for="why_gsu">Why did you choose GSU/Perimeter College? <span class="small">(100-500 words)</span></label>
+            <textarea name="why_gsu" id="why_gsu" minlength="100" maxlength="500"></textarea>
+
+            <label for="scholarship_help">How will a scholarship help you achieve your goals? <span class="small">(100-500 words)</span></label>
+            <textarea name="scholarship_help" id="scholarship_help" minlength="100" maxlength="500"></textarea>
+
+            <label>
+                <input type="checkbox" name="authorize_statement">
+                I hereby request and authorize the release of information contained in my student records...
+            </label>
+            <label>Full Name*</label>
+            <input type="text" name="full_name" required>
+            <label>Authorize Date*</label>
+            <input type="date" name="authorize_date" required>
+
+            <br><br>
+            <button class="btn" name="submit" value="save">Save and Keep Editing</button>
+            <button class="btn" name="submit" value="finish">Finish and Submit</button>
+        </form>
+    </div>
+</body>
+</html>

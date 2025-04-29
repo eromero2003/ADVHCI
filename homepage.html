@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GSU Scholarship Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>  
+    <div class="gsu-header">
+        <div class="gsu-header-row">
+            <div class="gsu-title">GSU Scholarship Portal</div>
+            <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+        <form method="get" action="{{ url_for('homepage') }}" style="margin-top: 18px;">
+            <input class="search-bar" type="text" name="search" placeholder="Search scholarships..." value="{{ search }}">
+            <button class="btn-primary">Search</button>
+        </form>
+    </div>    
+
+    <div class="nav-links">
+        <a href="{{ url_for('homepage') }}">Home</a> |
+        <a href="{{ url_for('profile') }}">My Profile</a> |
+        <a href="{{ url_for('saved_scholarships') }}">Saved Scholarships</a> |
+        <a href="{{ url_for('application_status') }}">Application Status</a>
+    </div>
+    <hr>
+    <div class="main-content">
+        <div class="sidebar">
+            <form method="get" action="{{ url_for('homepage') }}">
+                <div class="filter-card">
+                    <div class="filter-title">Filter Scholarships</div>
+                    <label>Student Type</label><br>
+                    <input type="checkbox" name="student_type" value="Domestic" {% if 'Domestic' in selected_student_type %}checked{% endif %}> Domestic<br>
+                    <input type="checkbox" name="student_type" value="International" {% if 'International' in selected_student_type %}checked{% endif %}> International<br>
+                    <label>Academic Level</label><br>
+                    <input type="checkbox" name="academic_level" value="Freshman" {% if 'Freshman' in selected_academic_level %}checked{% endif %}> Freshman<br>
+                    <input type="checkbox" name="academic_level" value="Sophomore" {% if 'Sophomore' in selected_academic_level %}checked{% endif %}> Sophomore<br>
+                    <input type="checkbox" name="academic_level" value="Junior" {% if 'Junior' in selected_academic_level %}checked{% endif %}> Junior<br>
+                    <input type="checkbox" name="academic_level" value="Senior" {% if 'Senior' in selected_academic_level %}checked{% endif %}> Senior<br>
+                    <input type="checkbox" name="academic_level" value="Graduate" {% if 'Graduate' in selected_academic_level %}checked{% endif %}> Graduate<br>
+                    <label>College/Major</label><br>
+                    <select name="college_major">
+                        <option value="">Any</option>
+                        {% for major in majors %}
+                            <option value="{{ major }}" {% if selected_major == major %}selected{% endif %}>{{ major }}</option>
+                        {% endfor %}
+                    </select><br>
+                    <label>Deadline</label><br>
+                    <input type="checkbox" name="deadline" value="1" {% if '1' in selected_deadline %}checked{% endif %}> Within 1 month<br>
+                    <input type="checkbox" name="deadline" value="3" {% if '3' in selected_deadline %}checked{% endif %}> Within 3 months<br>
+                    <input type="checkbox" name="deadline" value="future" {% if 'future' in selected_deadline %}checked{% endif %}> Future<br>
+                    <button type="submit" class="btn-primary mt-2 w-100">Apply Filters</button>
+                </div>
+            </form>
+        </div>
+        <div class="scholarship-list">
+            <div class="section-title mb-3">Available Scholarships</div>
+            {% for scholarship in scholarships %}
+            <div class="scholarship-card">
+                <span class="scholarship-card-title">{{ scholarship.name }}</span>
+                <div class="scholarship-details">
+                    <b>Amount:</b> {{ scholarship.amount }}<br>
+                    <b>Deadline:</b> {{ scholarship.deadline | datetimeformat }}<br>
+                    <b>Eligibility:</b>
+                    {{ ', '.join(scholarship.academic_level) }}
+                    {% if scholarship.college_major != 'Any' %}, {{ scholarship.college_major }}{% endif %}
+                    {% if scholarship.student_type %}, {{ ', '.join(scholarship.student_type) }}{% endif %}
+                </div>
+                <div class="scholarship-actions">
+                    <a href="{{ url_for('scholarship_detail', scholarship_id=scholarship['id']) }}">
+                        <button class="btn-primary">View Details</button>
+                    </a>
+                    <form method="POST" action="{{ url_for('save_scholarship', scholarship_id=scholarship['id']) }}" style="display:inline;">
+                        <button type="submit" class="btn-outline-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div>No scholarships found matching your criteria.</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+

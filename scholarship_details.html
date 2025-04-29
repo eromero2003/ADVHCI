@@ -1,0 +1,12 @@
+<h2>{{ scholarship.name }}</h2>
+<div>
+    <b>Amount:</b> {{ scholarship.amount }}<br>
+    <b>Deadline:</b> {{ scholarship.deadline | datetimeformat }}<br>
+    <b>Eligibility:</b> {{ ', '.join(scholarship.academic_level) }}{% if scholarship.college_major != 'Any' %}, {{ scholarship.college_major }}{% endif %}{% if scholarship.student_type %}, {{ ', '.join(scholarship.student_type) }}{% endif %}
+</div>
+<p>{{ scholarship.full_description }}</p>
+<form method="POST" action="{{ url_for('save_scholarship', scholarship_id=scholarship['id']) }}">
+    <button type="submit" class="btn-outline-primary">Save Scholarship</button>
+</form>
+
+

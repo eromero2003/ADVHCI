@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .status-circle {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.95rem;
+            margin-left: 20px;
+            vertical-align: middle;
+        }
+        .status-pending {
+            background-color: #ffb800;
+        }
+        .status-accepted {
+            background-color: #2ecc40;
+        }
+        .status-denied {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="gsu-header">
+        <div class="gsu-header-row">
+            <div class="gsu-title">GSU Scholarship Portal</div>
+            <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('homepage') }}">Home</a> |
+        <a href="{{ url_for('profile') }}">My Profile</a> |
+        <a href="{{ url_for('saved_scholarships') }}">Saved Scholarships</a> |
+        <a href="{{ url_for('application_status') }}">Application Status</a>
+    </div>
+    <hr>
+    <div class="scholarship-list" style="margin: 32px auto 0 auto; max-width: 900px;">
+        <h2 class="section-title">Application Status</h2>
+        {% for app in applications %}
+        <div class="scholarship-card">
+            <div style="display:flex; align-items:center;">
+                <a href="#" class="scholarship-card-title" style="flex:1;">{{ app.name }}</a>
+                <span class="status-circle status-{{ app.status }}">
+                    {{ app.status.capitalize() }}
+                </span>
+            </div>
+            <div class="scholarship-details">
+                <b>Amount:</b> {{ app.amount }}<br>
+                <b>Deadline:</b> {{ app.deadline }}<br>
+                <b>Eligibility:</b> {{ app.eligibility }}
+            </div>
+        </div>
+        {% else %}
+            <div>You have not submitted any applications yet.</div>
+        {% endfor %}
+    </div>
+</body>
+</html>
